@@ -1,0 +1,59 @@
+﻿@inject ICompanyService _companyService
+
+
+<div id="companyTable">
+    <table class="table table-bordered table-striped table-hover table-light">
+        <thead>
+            <tr class="text-center">
+                <th style="width: 10px">Count</th>
+                <th style="width: 340px">Id</th>
+                <th style="width: 180px">Name</th>
+                <th>#Register</th>
+                <th>IsActive</th>
+                <th>IsDeleted</th>
+                <th>CreatedAt</th>
+                <th>CreatedBy</th>
+                <th>First Two</th>
+                <th>View Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int totalCounter = 0;
+                int listCounter = 0;
+            }
+
+            @foreach (var company in Model)
+            {
+                totalCounter++;
+
+                string GetFirstTwoLetter() => company.Name.Substring(0, 2);
+
+                listCounter++;
+                <tr>
+                    <td>@listCounter</td>
+                    <td>@company.Id</td>
+                    <td>@company.Name</td>
+                    <td>@company.BusinessRegistrationNumber</td>
+                    <td>@company.IsActive</td>
+                    <td>@company.IsDeleted</td>
+                    <td>@company.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@company.CreatedBy</td>
+                    <td>@GetFirstTwoLetter()</td>
+                    <td>
+                        <div class="w-10 btn-group" role="group">
+                            <a class="btn btn-info mx-2" asp-controller="Company" asp-action="Edit"
+                               asp-route-companyId="@company.Id"
+                               asp-route-str="@company.Name"
+                               asp-route-num="@totalCounter">
+                                Details
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="text-primary">#Total Company: @_companyService.GetAllCompanies().Count</p>
+    <p class="text-primary">#Company with given filter: @listCounter</p>
+</div>

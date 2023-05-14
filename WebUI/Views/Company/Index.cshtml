@@ -1,0 +1,53 @@
+﻿@model List<Company>
+
+@inject ICompanyService _companyService
+
+@{
+    ViewData["Title"] = "Company List";
+}
+
+<button class="btn btn-info mb-4" style="width: 120px" onclick="sendCompanies('all')">All</button>
+
+<button class="btn btn-danger mb-4" style="width: 120px" onclick="sendCompanies('active')">Active</button>
+<button class="btn btn-danger mb-4" style="width: 120px" onclick="sendCompanies('inactive')">In-Active</button>
+
+<button class="btn btn-danger mb-4" style="width: 120px" onclick="sendCompanies('deleted')">Deleted</button>
+<button class="btn btn-danger mb-4" style="width: 120px" onclick="sendCompanies('notdeleted')">Not-Deleted</button>
+
+<a class="btn btn-success mb-4 float-end" style="width: 165px" asp-controller="Company" asp-action="Add">Add New Company</a>
+
+<partial name="_CompanyTable" />
+
+
+<script>
+    function sendCompanies(listName) {
+        var companies = getCorrectList(listName);
+
+        $.ajax({
+            url: '@Url.Action("ListPartial", "Company")',
+            type: 'POST',
+            data: { companies: JSON.parse(companies) },
+            success: function(result) {
+                console.log(result);
+                $("#companyTable").html(result);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function getCorrectList(listName) {
+        if (listName === "all"){
+            return '@Html.Raw(Json.Serialize(_companyService.GetAllCompanies()))';
+        } else if (listName === "active"){
+            return '@Html.Raw(Json.Serialize(_companyService.GetActiveCompanies()))';
+        } else if (listName === "inactive"){
+            return '@Html.Raw(Json.Serialize(_companyService.GetInActiveCompanies()))';
+        } else if (listName === "deleted"){
+            return '@Html.Raw(Json.Serialize(_companyService.GetDeletedCompanies()))';
+        } else if (listName === "notdeleted"){
+            return '@Html.Raw(Json.Serialize(_companyService.GetNotDeletedCompanies()))';
+        }
+    }
+</script>

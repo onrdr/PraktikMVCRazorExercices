@@ -1,0 +1,68 @@
+﻿@model Company
+
+@{
+    ViewData["Title"] = "Company Details";
+}
+
+@* asp-route="/company/edit" can be writen instead of asp-action="Edit" *@
+@*controller'a gerek yok aynı controller'dayız*@
+@*Eğer disabled inputlar hidden olarak iletilmezse client-side'da sorun olmaz ama server-side içinde model validation'a takılır*@
+<form class="offset-3 col-6" method="post" asp-controller="Company" asp-action="Edit">
+    <input asp-for="Id" hidden />
+    <input asp-for="CreatedBy" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Company</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="Id"></label>
+            <input asp-for="Id" class="form-control" disabled />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="BusinessRegistrationNumber"></label>
+            <input asp-for="BusinessRegistrationNumber" class="form-control" />
+            <span asp-validation-for="BusinessRegistrationNumber" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="IsActive"></label>
+            <select asp-for="IsActive" class="form-control">
+                <option value="True">True</option>
+                <option value="False">False</option>
+            </select>
+            <span asp-validation-for="IsActive" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="IsDeleted"></label>
+            <select asp-for="IsDeleted" class="form-control">
+                <option value="True">True</option>
+                <option value="False">False</option>
+            </select>
+            <span asp-validation-for="IsDeleted" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CreatedAt"></label>
+            <input asp-for="CreatedAt" class="form-control" type="datetime-local"
+                   value="@Model.CreatedAt.ToString("yyyy-MM-ddTHH:mm")" />
+            <span asp-validation-for="CreatedAt" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CreatedBy"></label>
+            <input asp-for="CreatedBy" class="form-control" disabled />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-warning" style="width:150px">Update</button>
+        <a asp-controller="Company" asp-action="Index" class="btn btn-info" style="width:150px">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

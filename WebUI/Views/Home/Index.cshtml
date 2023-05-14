@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <button class="btn btn-info" onclick="consolePage()">WriteToConsole</button>
+    <button id="doneBtn" class="btn btn-success" style="display: none;">Done</button>
+    <button id="errorBtn" class="btn btn-danger" style="display: none;">Error</button>
+
+    @{
+        // ViewData'lar object olduğu için explicitly cast edilmeli
+        string viewDataStr = ViewData["Str"] as string;
+        int viewDataNum = (int)ViewData["Num"]; // as kullanılamıyor. as sadece nullable typelarda kullanılır
+
+        // ViewBag'ler dynamic olduğu için cast'e gerek yok
+        string viewBagStr = ViewBag.String;
+        int viewBagNum = ViewBag.Number;
+
+        // TempData'lar object olduğu için explicitly cast edilmeli
+        string tempDataStr = TempData["Str"] as string;
+        int tempDataNum = (int)TempData["Num"];
+    }
+
+    <div class="col-2">
+        <ul>
+            <li class="mb-4">
+                @viewDataStr
+                @ViewData["Str"]
+            </li>
+            <li class="mb-4">
+                @viewDataNum <br />
+                @ViewData["Num"]
+            </li>
+            -------------------------
+            <li class="mb-4">
+                @viewBagStr
+                @ViewBag.String
+            </li>
+            <li class="mb-4">
+                @viewBagNum <br />
+                @ViewBag.Number
+            </li>
+            --------------------------
+            <li class="mb-4">
+                @tempDataStr
+                @TempData["Str"]
+            </li>
+            <li class="mb-4">
+                @tempDataNum <br />
+                @TempData["Num"]
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script>
+    function consolePage() { 
+        $.ajax({
+            url: '@Url.Action("Index", "Home")',
+            type: 'GET', 
+            success: function(result) {
+                console.log(result); 
+                $('#doneBtn').show(); 
+            },
+            error: function(error) {
+                console.log(error);
+                $('#errorBtn').show(); 
+            }
+        });
+    }  
+</script>
+
+
