@@ -3,7 +3,13 @@ using System.ComponentModel.DataAnnotations;
 namespace WebUI.Models;
 
 public class Company
-{ 
+{
+    public Company()
+    {
+        Id = Guid.NewGuid();
+        CreatedAt = DateTime.Now;
+    }
+
     [Required]
     [Display(Name = "Company Id")]
     public Guid Id { get; set; }
@@ -13,7 +19,7 @@ public class Company
     public string Name { get; set; }
 
     [Required]
-    public string BusinessRegistrationNumber { get; set; } 
+    public int BusinessRegistrationNumber { get; set; }
 
     [Required]
     public bool IsActive { get; set; }
@@ -25,5 +31,5 @@ public class Company
     public DateTimeOffset CreatedAt { get; set; }
 
     [Required]
-    public string CreatedBy { get; set; }  
+    public string CreatedBy { get; set; }
 }

@@ -33,31 +33,5 @@ public class CompanyService : ICompanyService
         }
     }
 
-    public void AddCompany(Company model)
-    {
-        var company = new Company
-        {
-            Id = Guid.NewGuid(),
-            Name = model.Name,
-            BusinessRegistrationNumber = model.BusinessRegistrationNumber,
-            IsActive = model.IsActive,
-            IsDeleted = model.IsDeleted,
-            CreatedAt = DateTimeOffset.UtcNow,
-            CreatedBy = model.CreatedBy
-        };
-
-        Companies.Add(company);
-    }
-}
-
-public interface ICompanyService
-{
-    Company? GetCompanyById(Guid? id);
-    List<Company> GetAllCompanies();
-    List<Company> GetActiveCompanies();
-    List<Company> GetInActiveCompanies();
-    List<Company> GetDeletedCompanies();
-    List<Company> GetNotDeletedCompanies();
-    void EditCompany(Company company);
-    void AddCompany(Company company);
+    public void AddCompany(Company model) => Companies.Add(model);    
 }

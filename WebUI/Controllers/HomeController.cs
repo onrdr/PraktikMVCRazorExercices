@@ -16,13 +16,14 @@ public class HomeController : Controller
 
         TempData["Str"] = "String Value TempData";
         TempData["Num"] = 33333;
-        TempData["Privacy"] = "Privacy";
+        TempData["Privacy"] = "Temporary string that is valid for one request";
 
         return View();
     }
 
     public IActionResult Privacy()
-    { 
-        return View();
+    {
+        object str = "Sending model as object";
+        return View(str);
     } 
 }
